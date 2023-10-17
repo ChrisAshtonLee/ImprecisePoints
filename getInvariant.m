@@ -1,4 +1,4 @@
-function [IH] = getInvariant(X,imp)
+function [IH,IH_vertices] = getInvariant(X,imp,agent)
 Xf = X';
 n = size(Xf,1);
 Xfhull = zeros(4,2,n);
@@ -19,10 +19,13 @@ for i= 1:num_triples
 end
 try
 IHindices = convhull(IHtriples);
-IH = IHtriples(IHindices,:);
-IH = [mean(IH(:,1)) mean(IH(:,2))];
+%IH = IHtriples(IHindices,:);
+IH_vertices = IHtriples(IHindices,:);
+IH = [mean(IH_vertices(:,1)) mean(IH_vertices(:,2))];
 catch
     warning('IH not found');
     IH = [mean(Xf(:,1)) mean(Xf(:,2))];
+    IH_vertices = 0;
+    %IH  = Xf(agent,:);
 end
 end

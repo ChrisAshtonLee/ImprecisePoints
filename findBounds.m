@@ -2,8 +2,8 @@
 function [p1,p2,p3] =  findBounds(hull1,hull2,hull3)
 %find bound for hull1 and hull2
 constraint12 = zeros(1,3); constraint13 = zeros(1,3); constraint23 = zeros(1,3);
-x1 = mean(hull1(:,1)); x2 = mean(hull2(:,1));
-y1 = mean(hull1(:,2)); y2 = mean(hull2(:,2));
+x1 = mean(hull1(:,1)); y1 = mean(hull1(:,2));
+x2 = mean(hull2(:,1)); y2 = mean(hull2(:,2));
 x3 = mean(hull3(:,1)); y3 = mean(hull3(:,2));
 if x1 == x2
     rel12 =[1 2];

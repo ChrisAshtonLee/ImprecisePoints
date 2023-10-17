@@ -1,4 +1,4 @@
-function [c] = getCenterpoint(X)
+function [c] = getCenterpoint(X,agent)
 Xf = X;
 n = size(Xf,1);
 k = ceil(2/3*n)+1;
@@ -16,7 +16,7 @@ I = intersectionHull('vert',tuple(:,:,1),'vert',tuple(:,:,2),'vert',tuple(:,:,3)
 c = I.vert;
 catch
     warning('centerpoint failed');
-    c = Xf;
+    c = Xf(agent,:);
 end
 
 end
