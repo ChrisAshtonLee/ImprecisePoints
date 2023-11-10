@@ -3,7 +3,7 @@ xcoord = 2.077;
 A = [-xcoord .5];
 B = [xcoord 1.3];
 
-C = [.5 -2];
+C = [0.077 -2];
 theta = -atan((A(1,2)-B(1,2))/(A(1,1)-B(1,1)));
 Rot = [cos(theta) -sin(theta);sin(theta) cos(theta) ];
 
@@ -54,8 +54,12 @@ y = [SquareBt(1,2) SquareCt(1,2)];
 mBC = polyfit(x,y,1);
 m2 = mBC(1,1);
 b2 = mBC(1,2);
-
-
+x = [A(1,1),B(1,1)];
+y = [A(1,2),B(1,2)];
+mAB = polyfit(x,y,1);
+m3 = mAB(1,1);
+b3 = mAB(1,2);
+height = abs(C(1,1)*m3-C(1,2)+b3)/sqrt(m3^2+1);
 
 M = [-m1 1; -m2 1];
 D = [b1;b2];
@@ -75,7 +79,7 @@ distBC= sqrt((C-B)*(C-B)')
 avgdistance = (sqrt((A-B)*(A-B)')+sqrt((A-C)*(A-C)')+sqrt((B-C)*(B-C)'))/3;
 plot(SquareAt(:,1),SquareAt(:,2)); hold on; plot(SquareBt(:,1),SquareBt(:,2)); hold on; plot(SquareCt(:,1),SquareCt(:,2));
 hold on;
-plot(SquareA(:,1),SquareA(:,2)); hold on; plot(SquareB(:,1),SquareB(:,2)); hold on; plot(SquareC(:,1),SquareC(:,2));
+fill(SquareA(:,1),SquareA(:,2),'r'); hold on; fill(SquareB(:,1),SquareB(:,2),'b'); hold on; fill(SquareC(:,1),SquareC(:,2),'g');
 x = [SquareA(3,1) SquareB(3,1)];
 y = [SquareA(3,2) SquareB(3,2)];
 plot(x,y);hold on;
@@ -94,3 +98,15 @@ y1 = SquareBt(1,2);
 y2 = min(SquareAt(:,2))
 b = x2-x1;
 c = ((x1-x2)*y1+(y2-y1)*x1)/b;
+x1 = [SquareB(1,1) SquareC(1,1)] 
+x2 = [SquareA(2,1) SquareC(2,1)];
+y1 = [SquareB(1,2) SquareC(1,2)] 
+y2 = [SquareA(2,2) SquareC(2,2)];
+[xi, yi] = polyxpoly(x1,y1,x2,y2);
+scatter(xi,yi);
+v_1 = [x1(1,1),x1(1,2),0] - [xi,yi,0];
+v_2 = [SquareB(3,1),SquareB(3,2),0] - [xi,yi,0];
+ThetaB = atan2(norm(cross(v_1, v_2)), dot(v_1, v_2));
+v_1 = [x2(1,1),x2(1,2),0] - [xi,yi,0];
+v_2 = [SquareA(3,1),SquareA(3,2),0] - [xi,yi,0];
+ThetaA = atan2(norm(cross(v_1, v_2)), dot(v_1, v_2));
